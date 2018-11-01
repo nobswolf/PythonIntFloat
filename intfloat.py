@@ -30,7 +30,7 @@ class IntFloat:
 			diff-=1
 			gross*=10
 				
-		b = IntFloat(gross+klein, a.exponent)
+		b = IntFloat(gross+klein, exp)
 			
 		b.normalize()
 		return(b)
