@@ -26,7 +26,7 @@ class IntFloat:
 			b = IntFloat(tmp.mantisse+a.mantisse, a.exponent)
 
 		if self.exponent < a.exponent:
-			tmp = IntFloat(a.mantiss, self.exponent)
+			tmp = IntFloat(a.mantisse, self.exponent)
 			diff = a.exponent - self.exponent
 			tmp.exponent = self.exponent
 			
