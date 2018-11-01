@@ -9,37 +9,30 @@ class IntFloat:
 	def __init__(self, a=0, b=0):
 		self.mantisse = Fraction(a)
 		self.exponent = int(b)
+		self.normalize()
 
 	def __str__(self):
 		return ("" + self.mantisse.__str__() + "e" +  self.exponent.__str__())
 
 	def __add__(self, a):
-		if self.exponent > a.exponent:
-			tmp = IntFloat(self.mantisse, self.exponent)
+		if self.exponent >= a.exponent:
+			gross = self.mantisse
+			klein = a.mantisse
+			exp = a.exponent
 			diff = self.exponent - a.exponent
-			tmp.exponent = a.exponent
-			
-			while diff > 0 :
-				diff-=1
-				tmp.mantisse*=10
-				
-			b = IntFloat(tmp.mantisse+a.mantisse, a.exponent)
-
-		if self.exponent < a.exponent:
-			tmp = IntFloat(a.mantisse, self.exponent)
+		else :
+			gross = a.mantisse 
+			klein = self.mantisse
+			exp = self.exponent
 			diff = a.exponent - self.exponent
-			tmp.exponent = self.exponent
 			
-			while diff > 0 :
-				diff-=1
-				tmp.mantisse*=10
+		while diff > 0 :
+			diff-=1
+			gross*=10
 				
-			b = IntFloat(tmp.mantisse+self.mantisse, self.exponent)
-
-		if self.exponent == a.exponent:
-			b = IntFloat(a.mantisse+self.mantisse, self.exponent)
+		b = IntFloat(gross+klein, a.exponent)
 			
-		self.normalize(b)
+		b.normalize()
 		return(b)
 		
 	def negate (self) :
@@ -53,15 +46,18 @@ class IntFloat:
 		
 	def __mul__(self,a):
 		b = IntFloat(self.mantisse*a.mantisse, self.exponent+a.exponent)
-		self.normalize(b)
+		b.normalize()
 		return (b)
 		
 	def __truediv__(self,a):
 		b = IntFloat(self.mantisse/a.mantisse, self.exponent-a.exponent)
-		self.normalize(b)
+		b.normalize()
 		return (b)
 
-	def normalize(self,a):
-		while a.mantisse%10 == 0:
-			a.mantisse//=10
-			a.exponent+=1
+	def normalize(self):
+		if self.mantisse == 0 :
+			self.exponent = 0
+		else :
+			while self.mantisse%10 == 0:
+				self.mantisse//=10
+				self.exponent+=1
