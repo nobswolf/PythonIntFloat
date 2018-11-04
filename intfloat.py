@@ -12,7 +12,7 @@ class IntFloat:
 		self.normalize()
 
 	def __str__(self):
-		return ("" + self.mantisse.__str__() + "e" +  self.exponent.__str__())
+		return ("" + self.mantisse.__str__() + " e" +  self.exponent.__str__())
 
 	def __add__(self, a):
 		if self.exponent >= a.exponent:
