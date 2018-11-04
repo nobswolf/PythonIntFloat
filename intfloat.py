@@ -26,11 +26,9 @@ class IntFloat:
 			exp = self.exponent
 			diff = a.exponent - self.exponent
 			
-		while diff > 0 :
-			diff-=1
-			gross*=10
+		gross*= 10**diff
 				
-		b = IntFloat(gross+klein, exp)
+		b = IntFloat(gross+klein, a.exponent)
 			
 		b.normalize()
 		return(b)
@@ -58,6 +56,12 @@ class IntFloat:
 		if self.mantisse == 0 :
 			self.exponent = 0
 		else :
-			while self.mantisse%10 == 0:
-				self.mantisse//=10
+			num = self.mantisse.numerator
+			while num%10 == 0:
+				num//=10
 				self.exponent+=1
+			den = self.mantisse.denominator
+			while den%10 == 0:
+				den//=10
+				self.exponent-=1
+			self.mantisse = Fraction(num, den)
