@@ -28,7 +28,7 @@ class IntFloat:
 			
 		gross*= 10**diff
 				
-		b = IntFloat(gross+klein, a.exponent)
+		b = IntFloat(gross+klein, exp)
 			
 		b.normalize()
 		return(b)
