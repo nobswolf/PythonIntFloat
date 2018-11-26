@@ -12,7 +12,12 @@ class IntFloat:
 		self.normalize()
 
 	def __str__(self):
-		return ("" + self.mantisse.__str__() + " e" +  self.exponent.__str__())
+		out = "" + self.mantisse.numerator.__str__()
+		if self.exponent != 0 :
+			out += "E" +  self.exponent.__str__()
+		if self.mantisse.denominator != 1 :
+			out += "/" + self.mantisse.denominator.__str__()
+		return (out)
 
 	def __add__(self, a):
 		if self.exponent >= a.exponent:
@@ -32,6 +37,26 @@ class IntFloat:
 			
 		b.normalize()
 		return(b)
+		
+	def periodic (self) :
+		merkA = []
+		z=self.mantisse.numerator
+		n=self.mantisse.denominator
+		out = "" + (z//n).__str__() + ",p"
+		z=10*(z%n)
+		
+		while True :
+			ganz = z//n
+			bleibt = z%n
+			if bleibt in merkA :
+				break 
+			out += ganz.__str__()
+			merkA.append(bleibt) 
+			z=bleibt*10
+			
+		if self.exponent != 0 :		
+			out += "e" + self.exponent.__str__()
+		return(out)
 		
 	def negate (self) :
 		self.mantisse *= -1 
@@ -56,10 +81,19 @@ class IntFloat:
 		if self.mantisse == 0 :
 			self.exponent = 0
 		else :
+			while self.mantisse.denominator % 2 == 0 :
+				self.mantisse *= 10
+				self.exponent -= 1 
+
+			while self.mantisse.denominator % 5 == 0 :
+				self.mantisse *= 10
+				self.exponent -= 1 
+
 			num = self.mantisse.numerator
 			while num%10 == 0:
 				num//=10
 				self.exponent+=1
+				
 			den = self.mantisse.denominator
 			while den%10 == 0:
 				den//=10
